@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 
 app.get("/hello", (req, res) => {
     //Response hellow world
-    res.send(process.env.WOO_HOST);
+    res.send("hello world");
 });
 
 //List products WooCommerce API
@@ -37,6 +37,7 @@ app.get('/products/:page', (req, res) => {
             res.status(200).send(data);
         }
     });
+    res.send("Validaty");
 });
 
 
