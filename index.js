@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 
 app.get("/hello", (req, res) => {
     //Response hellow world
-    res.send("Hello World");
+    res.send(process.env.WOO_HOST);
 });
 
 //List products WooCommerce API
