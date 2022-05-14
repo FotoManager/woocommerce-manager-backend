@@ -30,7 +30,13 @@ app.get("/hello", (req, res) => {
 
 //List products WooCommerce API
 app.get('/products/:page', (req, res) => {
-    res.send(WooCommerce.getAsync(`products?per_page=100&page=${req.params.page}`));
+    WooCommerce.get(`products?per_page=100&page=${req.params.page}`, (err, data) => {
+        if (err) {
+            res.status(503).send(err);
+        } else {
+            res.status(200).send(data);
+        }
+    });
 });
 
 
@@ -51,7 +57,7 @@ app.get('/products/var/:id', (req, res) => {
 
     WooCommerce.put("products/7429", data, (err, data) => {
         if(err) {
-            console.log(err);
+            res.status(503).send(err);
         } else {
             res.send(req.params.id);
             // const variation = {
@@ -67,7 +73,7 @@ app.get('/products/var/:id', (req, res) => {
               
             // WooCommerce.post("products/7429/variations", variation, (err, data) => {
             //     if(err) {
-            //         console.log(err);
+            //         res.status(503).send(err);
             //     } else {
             //         //console.log(data);
             //         res.send(data.body);
