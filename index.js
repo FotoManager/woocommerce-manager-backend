@@ -23,6 +23,11 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
+app.get("/hello", (req, res) => {
+    //Response hellow world
+    res.send("Hello World");
+});
+
 //List products WooCommerce API
 app.get('/products/:page', (req, res) => {
     WooCommerce.get(`products?per_page=100&page=${req.params.page}`, (err, data) => {
