@@ -49,7 +49,6 @@ app.get('/products/var/:id', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            //console.log(data);
             res.send(req.params.id);
             // const variation = {
             //     regular_price: "9.00",
