@@ -30,14 +30,7 @@ app.get("/hello", (req, res) => {
 
 //List products WooCommerce API
 app.get('/products/:page', (req, res) => {
-    WooCommerce.get(`products?per_page=100&page=${req.params.page}`, (err, data) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.status(200).send(data);
-        }
-    });
-    res.send("Validaty");
+    res.send(WooCommerce.getAsync(`products?per_page=100&page=${req.params.page}`));
 });
 
 
