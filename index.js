@@ -8,6 +8,10 @@ dotenv.config();
 
 const port = process.env.PORT || 3000;
 const WooCommerceAPI = require('woocommerce-api');
+//cors config of server
+const cors = require('cors');
+app.use(cors());
+
 //Routes
 app.use(express.static(__dirname + '/public'));
 const WooCommerce = new WooCommerceAPI({
@@ -16,16 +20,6 @@ const WooCommerce = new WooCommerceAPI({
     consumerSecret: process.env.WOO_CONSUMER_SECRET,
     wpAPI: true,
     version: 'wc/v2'
-});
-
-app.get("/", (req, res) => {
-    //Response hellow world
-    res.send("Hello World");
-});
-
-app.get("/hello", (req, res) => {
-    //Response hellow world
-    res.send("hello world");
 });
 
 //List products WooCommerce API
@@ -96,8 +90,21 @@ app.get('/product/:id', (req, res) => {
     })
 });
 
-app.get('/products/categories', (req, res) => {
-    WooCommerce.get("products/categories", (err, data) => {
+app.get('/categories', (req, res) => { 
+    WooCommerce.get("products/categories/", (err, data) => {
+        if (err) {
+            res.status(500).json({
+                message: err.message
+            })
+        } else {
+            res.status(200).send(data.body)
+        }
+    })
+});
+
+app.post('/product/variations/:parentId', (req, res) => {
+    const { parentId } = req.params;
+    WooCommerce.get(`products/${parentId}/variations`, (err, data) => {
         if (err) {
             res.status(500).json({
                 message: err.message
