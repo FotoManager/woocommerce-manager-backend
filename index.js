@@ -18,6 +18,11 @@ const WooCommerce = new WooCommerceAPI({
     version: 'wc/v2'
 });
 
+app.get("/", (req, res) => {
+    //Response hellow world
+    res.send("Hello World");
+});
+
 //List products WooCommerce API
 app.get('/products/:page', (req, res) => {
     WooCommerce.get(`products?per_page=100&page=${req.params.page}`, (err, data) => {
