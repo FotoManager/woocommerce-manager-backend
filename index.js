@@ -11,6 +11,9 @@ const WooCommerceAPI = require('woocommerce-api');
 //cors config of server
 const cors = require('cors');
 app.use(cors());
+//Allow body 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Routes
 app.use(express.static(__dirname + '/public'));
@@ -23,7 +26,7 @@ const WooCommerce = new WooCommerceAPI({
 });
 
 //List products WooCommerce API
-app.get('/products/:page', (req, res) => {
+app.get('/inventory/:page', (req, res) => {
     WooCommerce.get(`products?per_page=100&page=${req.params.page}`, (err, data) => {
         if (err) {
             res.status(503).send(err);
@@ -36,47 +39,70 @@ app.get('/products/:page', (req, res) => {
 
 app.get('/products/var/:id', (req, res) => {
 
-    const data = {
-        attributes: [
-            {
-                id: 0,
-                name: "Presentación",
-                options: ['GRIS (Caja x 12 Unidades)', 'NEGRO (Caja x 12 Unidades)', 'BLANCO (Caja x 12 Unidades)', 'AZUL (Caja x 12 Unidades)'],
-                position: 0,
-                variation: true,
-                visible: true
-            }
-        ],
-    }
+    // const data = {
+    //     attributes: [
+    //         {
+    //             id: 0,
+    //             name: "Presentación",
+    //             options: ['GRIS (Caja x 12 Unidades)', 'NEGRO (Caja x 12 Unidades)', 'BLANCO (Caja x 12 Unidades)', 'AZUL (Caja x 12 Unidades)'],
+    //             position: 0,
+    //             variation: true,
+    //             visible: true
+    //         }
+    //     ],
+    // }
 
-    WooCommerce.put("products/7429", data, (err, data) => {
-        if(err) {
+    // WooCommerce.put("products/7429", data, (err, data) => {
+    //     if(err) {
+    //         res.status(503).send(err);
+    //     } else {
+    //         res.send(req.params.id);
+    //         // const variation = {
+    //         //     regular_price: "9.00",
+    //         //     attributes: [
+    //         //       {
+    //         //         id: 0,
+    //         //         name: "Presentación",
+    //         //         option: "AZUL (Caja x 12 Unidades)"
+    //         //       }
+    //         //     ]
+    //         //   };
+              
+    //         // WooCommerce.post("products/7429/variations", variation, (err, data) => {
+    //         //     if(err) {
+    //         //         res.status(503).send(err);
+    //         //     } else {
+    //         //         //console.log(data);
+    //         //         res.send(data.body);
+    //         //     }
+    //         // });
+    //     }
+    // });
+
+});
+
+app.put('/products/:id', (req, res) => {
+    const { product } = req.body;
+
+    WooCommerce.put(`products/${req.params.id}`, product, (err, data) => {
+        if (err) {
             res.status(503).send(err);
         } else {
-            res.send(req.params.id);
-            // const variation = {
-            //     regular_price: "9.00",
-            //     attributes: [
-            //       {
-            //         id: 0,
-            //         name: "Presentación",
-            //         option: "AZUL (Caja x 12 Unidades)"
-            //       }
-            //     ]
-            //   };
-              
-            // WooCommerce.post("products/7429/variations", variation, (err, data) => {
-            //     if(err) {
-            //         res.status(503).send(err);
-            //     } else {
-            //         //console.log(data);
-            //         res.send(data.body);
-            //     }
-            // });
+            res.send(data);
         }
     });
+});
 
+app.put('/products/:parentId/variation/:id', (req, res) => {
+    const { product } = req.body;
 
+    WooCommerce.put(`products/${req.params.parentId}/variations/${req.params.id}`, product, (err, data) => {
+        if (err) {
+            res.status(503).send(err);
+        } else {
+            res.send(data);
+        }
+    });
 });
 
 app.get('/product/:id', (req, res) => {
