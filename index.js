@@ -26,7 +26,8 @@ const WooCommerce = new WooCommerceAPI({
 });
 
 //List products WooCommerce API
-app.get('/inventory/:page', (req, res) => {
+app.get('/inventory/:page', (req, res) => { 
+    
     WooCommerce.get(`products?per_page=100&page=${req.params.page}`, (err, data) => {
         if (err) {
             res.status(503).send(err);
