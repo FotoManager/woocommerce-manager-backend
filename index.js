@@ -37,10 +37,11 @@ const WooCommerce = new WooCommerceAPI({
 
 //List products WooCommerce API.
 app.get("/inventory/:page", (req, res) => {
-    console.log("page: ", req.params.page);
+    console.log("page: ", process.env.WOO_HOST + "/products?page=" + req.params.page);
   WooCommerce.get(
     `products?per_page=100&page=${req.params.page}`,
     (err, data) => {
+        console.log(data);
       if (err) {
         res.status(503).send(err);
       } else {
