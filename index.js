@@ -122,8 +122,7 @@ app.put("/products/:id", upload.single("images"), (req, res) => {
     headers["Content-Type"] = "multipart/form-data";
     headers["Accept"] = "application/json";
     headers["Content-Disposition"] = "attachment; filename=" + images.originalname;
-    axios.defaults.headers.common["Authorization"] =
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsIm5hbWUiOiJKcHJpZXRvIiwiaWF0IjoxNjU0NTcxNjMwLCJleHAiOjE4MTIyNTE2MzB9.UUX7XDNpaugrkYBnQaAXtL-f3JGbfdNNqESNUKeifqQ";
+    axios.defaults.headers.common["Authorization"] = process.env.JWT_SECRET;
     axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
     axios
