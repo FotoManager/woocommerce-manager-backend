@@ -21,7 +21,12 @@ const multer = require("multer");
 
 const upload = multer();
 
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin", "Access-Control-Allow-Origin"],
+
+}));
 app.use(timeout(10000));
 
 const haltOnTimedout = (req, res, next) => {
