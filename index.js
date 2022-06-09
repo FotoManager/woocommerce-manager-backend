@@ -31,7 +31,7 @@ const WooCommerce = new WooCommerceAPI({
   consumerKey: process.env.WOO_CONSUMER_KEY,
   consumerSecret: process.env.WOO_CONSUMER_SECRET,
   wpAPI: true,
-  version: "wc/v3",
+  version: "wc/v2",
 });
 
 //List products WooCommerce API.
@@ -40,11 +40,16 @@ app.get("/inventory/:page", (req, res) => {
   WooCommerce.get(
     `products?per_page=100&page=${req.params.page}`,
     (err, data) => {
-        console.log(data)
-        res.status(200).send(data || {});
+        
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(data);
+        }
     }
   );
-  res.status(200).send({});
+  //res.status(200).send({});
 });
 
 app.get("/products/var/:id", (req, res) => {
