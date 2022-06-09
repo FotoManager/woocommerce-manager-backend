@@ -52,9 +52,9 @@ app.get("/inventory/:page", (req, res) => {
         
         if (err) {
             console.log(err);
-            res.status(500).send(err);
+            return res.status(500).send(err);
         } else {
-            res.status(200).send(data);
+            return res.status(200).send(data);
         }
     }
   );
