@@ -27,7 +27,7 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin", "Access-Control-Allow-Origin"],
 
 }));
-app.use(timeout(10000));
+app.use(timeout(30000));
 
 const haltOnTimedout = (req, res, next) => {
     if (!req.timedout) next();
