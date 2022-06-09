@@ -41,12 +41,9 @@ app.get("/inventory/:page", (req, res) => {
   WooCommerce.get(
     `products?per_page=100&page=${req.params.page}`,
     (err, data) => {
-        console.log(err);
-      if (err) {
-        res.status(503).send(err);
-      } else {
-        res.status(200).send(data);
-      }
+        if(err)
+            console.log(err)
+        res.status(200).send(data || {});
     }
   );
 });
