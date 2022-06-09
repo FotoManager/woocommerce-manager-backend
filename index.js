@@ -225,7 +225,7 @@ app.post("/products/:parentId/variation/", upload.single("images"), (req, res) =
     headers,
     })
     .then((response) => {
-        product["images"] = [{ "id": response.data.id }];
+        product["images"] = [{ "id": response.data.id }]; 
         WooCommerce.post(`products/${parentId}/variations`, product, (err, data) => {
         if (err) {
             res.status(503).send(err);
