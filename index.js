@@ -206,6 +206,39 @@ app.post("/products", upload.single("images"), (req, res) => {
     
 });
 
+app.post("/products/:parentId/variation/", upload.single("images"), (req, res) => {
+    const product = req.body;
+    const images = req.file;
+    const { parentId } = req.params;
+    
+    product.categories = JSON.parse(product.categories);
+    product.attributes = JSON.parse(product.attributes);
+  
+    const headers = {};
+    headers["Content-Type"] = "multipart/form-data";
+    headers["Accept"] = "application/json";
+    headers["Content-Disposition"] = "attachment; filename=" + images.originalname;
+    axios.defaults.headers.common["Authorization"] =
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsIm5hbWUiOiJKcHJpZXRvIiwiaWF0IjoxNjU0NTcxNjMwLCJleHAiOjE4MTIyNTE2MzB9.UUX7XDNpaugrkYBnQaAXtL-f3JGbfdNNqESNUKeifqQ";
+    axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
+
+    axios
+    .post("https://tornicentro.com.co/wp-json/wp/v2/media/", images.buffer, {
+    headers,
+    })
+    .then((response) => {
+        product["images"] = [{ "id": response.data.id }];
+        WooCommerce.post(`products/${parentId}/variations`, product, (err, data) => {
+        if (err) {
+            res.status(503).send(err);
+        } else {
+            res.status(201).send(data);
+        }
+        });
+    });
+    
+});
+
 app.delete("/product/:id", (req, res) => {
     const { id } = req.params;
 
