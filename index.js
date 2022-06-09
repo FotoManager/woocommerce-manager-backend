@@ -49,7 +49,7 @@ app.get("/inventory/:page", (req, res) => {
         }
     }
   );
-  //res.status(200).send({});
+  res.status(200).send({});
 });
 
 app.get("/products/var/:id", (req, res) => {
