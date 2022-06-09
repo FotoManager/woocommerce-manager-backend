@@ -37,6 +37,7 @@ const WooCommerce = new WooCommerceAPI({
 
 //List products WooCommerce API.
 app.get("/inventory/:page", (req, res) => {
+    console.log("page: ", req.params.page);
   WooCommerce.get(
     `products?per_page=100&page=${req.params.page}`,
     (err, data) => {
@@ -192,7 +193,7 @@ app.post("/products", upload.single("images"), (req, res) => {
 
 app.delete("/product/:id", (req, res) => {
     const { id } = req.params;
-    
+
     WooCommerce.delete(`products/${id}`, (err, data) => {
         if (err) {
           res.status(500).send(err);
