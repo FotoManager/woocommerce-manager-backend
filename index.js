@@ -126,7 +126,7 @@ app.put("/products/:id", upload.single("images"), (req, res) => {
     axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
     axios
-    .post("https://tornicentro.com.co/wp-json/wp/v2/media/", images.buffer, {
+    .post(process.env.MEDIA_HOST, images.buffer, {
       headers,
     })
     .then((response) => {
