@@ -40,7 +40,7 @@ app.get("/inventory/:page", (req, res) => {
   WooCommerce.get(
     `products?per_page=100&page=${req.params.page}`,
     (err, data) => {
-        console.log(err)
+        console.log(data)
         res.status(200).send(data || {});
     }
   );
