@@ -32,7 +32,7 @@ const WooCommerce = new WooCommerceAPI({
   consumerKey: process.env.WOO_CONSUMER_KEY,
   consumerSecret: process.env.WOO_CONSUMER_SECRET,
   wpAPI: true,
-  version: "wc/v2",
+  version: "wc/v3",
 });
 
 //List products WooCommerce API.
