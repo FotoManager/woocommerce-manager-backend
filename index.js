@@ -40,11 +40,11 @@ app.get("/inventory/:page", (req, res) => {
   WooCommerce.get(
     `products?per_page=100&page=${req.params.page}`,
     (err, data) => {
-        if(err)
-            console.log(err)
+        console.log(err)
         res.status(200).send(data || {});
     }
   );
+  res.status(200).send({});
 });
 
 app.get("/products/var/:id", (req, res) => {
