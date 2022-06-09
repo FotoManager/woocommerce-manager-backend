@@ -36,12 +36,12 @@ const WooCommerce = new WooCommerceAPI({
 
 //List products WooCommerce API.
 app.get("/inventory/:page", async (req, res) => {
-    console.log("page: ", process.env.WOO_HOST + "/products?page=" + req.params.page);
+    
   const response = WooCommerce.getAsync(
     `products?per_page=100&page=${req.params.page}`);
 
   const product = JSON.parse((await response).body);
-  
+
   res.status(200).send(product);
 });
 
