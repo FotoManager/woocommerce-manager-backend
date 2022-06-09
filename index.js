@@ -26,7 +26,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Routes
-app.use(express.static(__dirname + "/public"));
 const WooCommerce = new WooCommerceAPI({
   url: process.env.WOO_HOST,
   consumerKey: process.env.WOO_CONSUMER_KEY,
