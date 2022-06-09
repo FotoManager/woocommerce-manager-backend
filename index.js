@@ -22,8 +22,8 @@ const upload = multer();
 
 app.use(cors());
 //Allow body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.json({extended:true}));
 
 //Routes
 const WooCommerce = new WooCommerceAPI({
@@ -35,21 +35,14 @@ const WooCommerce = new WooCommerceAPI({
 });
 
 //List products WooCommerce API.
-app.get("/inventory/:page", (req, res) => {
+app.get("/inventory/:page", async (req, res) => {
     console.log("page: ", process.env.WOO_HOST + "/products?page=" + req.params.page);
-  WooCommerce.get(
-    `products?per_page=100&page=${req.params.page}`,
-    (err, data) => {
-        
-        if (err) {
-            console.log(err);
-            res.status(500).send(err);
-        } else {
-            res.status(200).send(data);
-        }
-    }
-  );
-  res.status(200).send({});
+  const response = WooCommerce.getAsync(
+    `products?per_page=100&page=${req.params.page}`);
+
+  const product = JSON.parse((await response).body);
+  
+  res.status(200).send(product);
 });
 
 app.get("/products/var/:id", (req, res) => {
