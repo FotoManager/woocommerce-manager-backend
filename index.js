@@ -5,6 +5,7 @@ const app = express();
 const server = require("http").createServer(app);
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
+const timeout = require("connect-timeout");
 //import fs
 const fs = require("fs");
 //import axios
@@ -21,9 +22,17 @@ const multer = require("multer");
 const upload = multer();
 
 app.use(cors());
+app.use(timeout(10000));
+
+const haltOnTimedout = (req, res, next) => {
+    if (!req.timedout) next();
+}
+app.use(haltOnTimedout);
+
+
 //Allow body
-app.use(express.json());
-app.use(express.json({extended:true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Routes
 const WooCommerce = new WooCommerceAPI({
@@ -35,14 +44,21 @@ const WooCommerce = new WooCommerceAPI({
 });
 
 //List products WooCommerce API.
-app.get("/inventory/:page", async (req, res) => {
-    
-  const response = WooCommerce.getAsync(
-    `products?per_page=100&page=${req.params.page}`);
-
-  const product = JSON.parse((await response).body);
-
-  res.status(200).send(product);
+app.get("/inventory/:page", (req, res) => {
+    console.log("page: ", process.env.WOO_HOST + "/products?page=" + req.params.page);
+  WooCommerce.get(
+    `products?per_page=100&page=${req.params.page}`,
+    (err, data) => {
+        
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(data);
+        }
+    }
+  );
+  
 });
 
 app.get("/products/var/:id", (req, res) => {
