@@ -211,6 +211,7 @@ app.post("/products/:parentId/variation/", upload.single("images"), (req, res) =
     const { parentId } = req.params;
     
     product.categories = JSON.parse(product.categories);
+    product.attributes = JSON.parse(product.attributes);
   
     const headers = {};
     headers["Content-Type"] = "multipart/form-data";
