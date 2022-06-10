@@ -174,6 +174,18 @@ app.get("/product/:id", (req, res) => {
   });
 });
 
+app.get("/product/attributes/:id", (req, res) => {
+    const { id } = req.params;
+  
+    WooCommerce.get(`products/${id}`, (err, data) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+      
+      res.status(200).send(JSON.parse(data.body).attributes);
+    });
+});
+
 app.post("/products", upload.single("images"), (req, res) => {
     const product = req.body;
     const images = req.file;
