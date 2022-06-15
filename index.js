@@ -294,14 +294,14 @@ app.get('/db/user/:user', (req, res) =>{
   const response = bd.signIn(user);
   response()
   .then((data) => res.status(200).send(data))
-  .catch((error) => res.status(500).send({error: 'No fue posible conectarse a la base de datos.'}) ); 
+  .catch((error) => res.status(500).send({error: 'Ha ocurrido un error en la base de datos.'}) ); 
 })
 
 app.post('/db/new/user', (req, res) =>{
   const response = bd.signUp(req);
   response()
   .then((data) => res.status(200).send(data))
-  .catch((error) => res.status(500).send({error: 'No fue posible conectarse a la base de datos.'}) ); 
+  .catch((error) => res.status(500).send({error: 'No fue posible registrar el usuario.'}) ); 
 })
 
 //Start the server

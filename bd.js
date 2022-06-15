@@ -31,48 +31,17 @@ db.signIn = (user) => {
 }
 
 db.signUp = ({ body }) => {
-    console.log('Sign Up...')
     const result = () => new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO users (id, username, password) VALUES ('${body.id}', '${body.username}', '${body.password}')`, (err, res) => {
+        pool.query(`INSERT INTO users (user_id, username, hash, salt, name, lastname) VALUES ('${body.user_id}', '${body.username}', '${body.hash}', '${body.salt}', '${body.name}', '${body.lastname}')`, (err, res) => {
             if (!err) {
                 resolve(res.rows)
             } else {
+                console.log(err)
                 reject(err)
             }
         })
     });
     return result;
-}
-
-db.loadOldMessages = ({ body }) => {
-    console.log('Loading old messages...')
-    const result = () => new Promise((resolve, reject) => {
-        pool.query(`SELECT message, time, username as author FROM messages m INNER JOIN users u ON u.id = m.user_id WHERE group_id = '${body.room}'`, (err, res) => {
-            if (!err) {
-                resolve(res.rows) 
-            } else {
-                reject(err)
-            }   
-        }) 
-    });  
-    
-    return result;   
-} 
-
-db.insertNewMessage = ({ body }) => {
-    console.log('Sending message...', body)
-    const result = () => new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO messages(group_id,user_id,message,time) Values('${body.room}','${body.id}','${body.message}','${body.time}')`, (err, res) => {
-            if (!err) { 
-                resolve(res.rows) 
-            } else {
-                console.log(err)
-                reject(err)
-            }   
-        }) 
-    });  
-    
-    return result;   
 }
 
 module.exports = db;
