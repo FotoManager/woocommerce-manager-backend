@@ -192,7 +192,8 @@ app.post("/products", upload.single("images"), (req, res) => {
     const images = req.file;
     
     product.categories = JSON.parse(product.categories);
-    product.attributes = JSON.parse(product.attributes);
+    if(product.attributes)
+      product.attributes = JSON.parse(product.attributes);
   
     const headers = {};
     headers["Content-Type"] = "multipart/form-data";
