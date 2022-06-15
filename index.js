@@ -6,6 +6,7 @@ const server = require("http").createServer(app);
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const timeout = require("connect-timeout");
+const bd = require('./bd');
 //import fs
 const fs = require("fs");
 //import axios
@@ -284,6 +285,24 @@ app.post("/product/variations/:parentId", (req, res) => {
     }
   });
 });
+
+/*
+Database connection
+*/
+app.get('/db/user/:user', (req, res) =>{
+  const { user } = req.params;
+  const response = bd.signIn(user);
+  response()
+  .then((data) => res.status(200).send(data))
+  .catch((error) => res.status(500).send({error: 'No fue posible conectarse a la base de datos.'}) ); 
+})
+
+app.post('/db/new/user', (req, res) =>{
+  const response = bd.signUp(req);
+  response()
+  .then((data) => res.status(200).send(data))
+  .catch((error) => res.status(500).send({error: 'No fue posible conectarse a la base de datos.'}) ); 
+})
 
 //Start the server
 server.listen(port, () => {
