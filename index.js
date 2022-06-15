@@ -261,17 +261,6 @@ app.post("/products/:parentId/variation/", upload.single("images"), (req, res) =
     
 });
 
-app.delete("/product/:id", (req, res) => {
-    const { id } = req.params;
-
-    WooCommerce.delete(`products/${id}`, (err, data) => {
-        if (err) {
-          res.status(500).send(err);
-        }
-        res.status(200).send(data.body);
-    });
-});
-
 app.get("/categories", (req, res) => {
   WooCommerce.get("products/categories/", (err, data) => {
     if (err) {
