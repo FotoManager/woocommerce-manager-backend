@@ -193,7 +193,9 @@ app.get("/product/attributes/:id", (req, res) => {
         res.status(500).send(err);
       }
       
-      res.status(200).send(JSON.parse(data.body).attributes);
+      const { images, attributes } = JSON.parse(data.body)
+
+      res.status(200).send({ images, attributes });
     });
 });
 
