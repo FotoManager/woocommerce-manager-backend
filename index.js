@@ -196,7 +196,7 @@ app.get("/product/attributes/:id", (req, res) => {
       const { images, attributes } = JSON.parse(data.body)
 
       res.status(200).send({ images, attributes });
-    });
+    }); 
 });
 
 app.post("/products", upload.single("images"), (req, res) => {
