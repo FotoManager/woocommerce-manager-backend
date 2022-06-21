@@ -113,6 +113,7 @@ app.put("/products/:id", upload.single("images"), (req, res) => {
   
   product.categories = JSON.parse(product.categories);
   product.attributes = JSON.parse(product.attributes);
+  product.tags = JSON.parse(product.tags);
 
   const headers = {};
 
@@ -204,6 +205,7 @@ app.post("/products", upload.single("images"), (req, res) => {
     const images = req.file;
     
     product.categories = JSON.parse(product.categories);
+    product.tags = JSON.parse(product.tags);
     if(product.attributes)
       product.attributes = JSON.parse(product.attributes);
   
