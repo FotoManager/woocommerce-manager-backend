@@ -275,6 +275,18 @@ app.get("/categories", (req, res) => {
   });
 });
 
+app.get("/tags", (req, res) => {
+  WooCommerce.get("products/tags/", (err, data) => {
+    if (err) {
+      res.status(500).json({
+        message: err.message,
+      });
+    } else {
+      res.status(200).send(data.body);
+    }
+  });
+});
+
 app.post("/product/variations/:parentId", (req, res) => {
   const { parentId } = req.params;
   WooCommerce.get(`products/${parentId}/variations`, (err, data) => {
