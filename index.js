@@ -312,7 +312,10 @@ app.post("/tag/", (req, res) => {
         body: content
       });
     }
-    res.status(200).send(data.body);
+    res.status(200).send({ 
+      response: data.body, 
+      body: content
+    });
   });
 });
 
