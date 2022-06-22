@@ -302,7 +302,7 @@ app.delete("/tag/:id", (req, res) => {
 app.post("/tag/", (req, res) => {
   
   const content = {
-    name: req.body
+    name: req.body.tag
   }
 
   WooCommerce.post(`products/tags/`, content, (err, data) => {
