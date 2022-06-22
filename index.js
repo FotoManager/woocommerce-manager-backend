@@ -299,7 +299,7 @@ app.get("/categories", (req, res) => {
 app.get("/tags/", (req, res) => {
 
   const page = req.query.page || 1;
-  const offset = (page - 1) * 50;
+  const offset = (page - 1) * 20;
   const search = req.query.search || "";
 
   const pageQuery = `&page=${page}`; 
@@ -382,3 +382,13 @@ app.post('/db/new/user', (req, res) =>{
 server.listen(port, () => {
   console.log("Server listening at port %d", port);
 });
+
+
+/*
+TO ADD
+*/
+/*
+To Add:
+- marcas
+- Metadata code: Variation
+*/
