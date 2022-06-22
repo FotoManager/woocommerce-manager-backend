@@ -308,9 +308,7 @@ app.get("/tags/", (req, res) => {
 
 app.delete("/tag/:id", (req, res) => {
   const { id } = req.params;
-  WooCommerce.delete(`products/tags/${id}`,{
-    force: true
-  }, (err, data) => {
+  WooCommerce.delete(`products/tags/${id}?force=true`, (err, data) => {
     if (err) {
       res.status(500).send(err);
     } 
