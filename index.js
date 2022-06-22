@@ -289,6 +289,30 @@ app.get("/tags", (req, res) => {
   });
 });
 
+app.delete("/tag/:id", (req, res) => {
+  const { id } = req.params;
+  WooCommerce.delete(`products/tags/${id}`, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.status(200).send(data.body);
+  });
+});
+
+app.post("/tag/", (req, res) => {
+  
+  const data = {
+    name: req.body
+  }
+
+  WooCommerce.post(`products/tags/`, data, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+    res.status(200).send(data.body);
+  });
+});
+
 app.post("/product/variations/:parentId", (req, res) => {
   const { parentId } = req.params;
   WooCommerce.get(`products/${parentId}/variations`, (err, data) => {
