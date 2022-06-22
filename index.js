@@ -301,13 +301,16 @@ app.delete("/tag/:id", (req, res) => {
 
 app.post("/tag/", (req, res) => {
   
-  const data = {
+  const content = {
     name: req.body
   }
 
-  WooCommerce.post(`products/tags/`, data, (err, data) => {
+  WooCommerce.post(`products/tags/`, content, (err, data) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send({
+        err,
+        body: content
+      });
     }
     res.status(200).send(data.body);
   });
