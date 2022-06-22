@@ -302,7 +302,7 @@ app.get("/tags/", (req, res) => {
   const offset = (page - 1) * 50;
   const search = req.query.search || "";
 
-  const pageQuery = `&page=${page}`;
+  const pageQuery = `&page=${page}`; 
   const searchQuery = `&search=${search}`;
   const query = `&offset=${offset}`;
 
