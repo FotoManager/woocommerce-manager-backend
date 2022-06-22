@@ -303,7 +303,7 @@ app.post("/tag/", (req, res) => {
   
   const content = {
     name: req.body.tag
-  } 
+  }
 
   WooCommerce.post(`products/tags/`, content, (err, data) => {
     if (err) {
