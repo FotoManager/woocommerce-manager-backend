@@ -249,27 +249,38 @@ app.post("/products/:parentId/variation/", upload.single("images"), (req, res) =
     product.categories = JSON.parse(product.categories);
     product.attributes = JSON.parse(product.attributes);
   
-    const headers = {};
-    headers["Content-Type"] = "multipart/form-data";
-    headers["Accept"] = "application/json";
-    headers["Content-Disposition"] = "attachment; filename=" + images.originalname;
-    axios.defaults.headers.common["Authorization"] =process.env.JWT_SECRET;
-    axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 
-    axios
-    .post(process.env.MEDIA_HOST, images.buffer, {
-    headers,
-    })
-    .then((response) => {
-        product["images"] = [{ "id": response.data.id }]; 
-        WooCommerce.post(`products/${parentId}/variations`, product, (err, data) => {
+    if(!images){
+      WooCommerce.post(`products/${parentId}/variations`, product, (err, data) => {
         if (err) {
             res.status(503).send(err);
         } else {
             res.status(201).send(data);
         }
         });
-    });
+    }else{
+      const headers = {};
+      headers["Content-Type"] = "multipart/form-data";
+      headers["Accept"] = "application/json";
+      headers["Content-Disposition"] = "attachment; filename=" + images.originalname;
+      axios.defaults.headers.common["Authorization"] =process.env.JWT_SECRET;
+      axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
+
+      axios
+      .post(process.env.MEDIA_HOST, images.buffer, {
+      headers,
+      })
+      .then((response) => {
+          product["images"] = [{ "id": response.data.id }]; 
+          WooCommerce.post(`products/${parentId}/variations`, product, (err, data) => {
+          if (err) {
+              res.status(503).send(err);
+          } else {
+              res.status(201).send(data);
+          }
+          });
+      });
+    }
     
 });
 
