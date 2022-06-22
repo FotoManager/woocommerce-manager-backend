@@ -50,10 +50,18 @@ const WooCommerce = new WooCommerceAPI({
 });
 
 //List products WooCommerce API.
-app.get("/inventory/:page", (req, res) => {
-    console.log("page: ", process.env.WOO_HOST + "/products?page=" + req.params.page);
+app.get("/inventory/", (req, res) => {
+  
+  const page = req.query.page || 1;
+  const offset = (page - 1) * 50;
+  const search = req.query.search || "";
+
+  const pageQuery = `&page=${page}`;
+  const searchQuery = `&search=${search}`;
+  const query = `&offset=${offset}`;
+
   WooCommerce.get( 
-    `products?per_page=100&page=${req.params.page}`,
+    `products?per_page=50${pageQuery}${query}${searchQuery}`,
     (err, data) => {
         
         if (err) {
@@ -277,14 +285,23 @@ app.get("/categories", (req, res) => {
   });
 });
 
-app.get("/tags", (req, res) => {
-  WooCommerce.get("products/tags/", (err, data) => {
+app.get("/tags/", (req, res) => {
+
+  const page = req.query.page || 1;
+  const offset = (page - 1) * 50;
+  const search = req.query.search || "";
+
+  const pageQuery = `&page=${page}`;
+  const searchQuery = `&search=${search}`;
+  const query = `&offset=${offset}`;
+
+  WooCommerce.get(`products/tags?per_page=20${pageQuery}${query}${searchQuery}`, (err, data) => {
     if (err) {
       res.status(500).json({
         message: err.message,
       });
     } else {
-      res.status(200).send(data.body);
+      res.status(200).send(data);
     }
   });
 });
