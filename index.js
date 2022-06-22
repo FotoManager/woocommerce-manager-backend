@@ -192,7 +192,7 @@ app.delete("/product/:id", (req, res) => {
     }
     res.status(200).send(data.body);
   });
-});
+}); 
 
 app.get("/product/attributes/:id", (req, res) => {
     const { id } = req.params;
